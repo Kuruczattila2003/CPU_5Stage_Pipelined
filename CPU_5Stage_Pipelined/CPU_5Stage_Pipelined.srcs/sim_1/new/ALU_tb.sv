@@ -26,8 +26,7 @@ module ALU_tb(
     
     logic clk;
     logic reset;
-    int totalTestCount = 100;
-    int incorrectTestCount = 0;
+    
     
     initial begin
         clk = 0;
@@ -75,7 +74,11 @@ module ALU_tb(
     
     //task
     task testALU();
+        int totalTestCount = 100;
+        int incorrectTestCount = 0;
         int test_count;
+        
+        
         $display("Starting Random ALU Tests...");
         
         for(test_count = 0; test_count < 100; test_count += 1) begin
