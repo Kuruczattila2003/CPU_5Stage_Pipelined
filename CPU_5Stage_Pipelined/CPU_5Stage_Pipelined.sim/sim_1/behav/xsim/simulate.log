@@ -1,3 +1,7 @@
 Time resolution is 1 ps
-PipelineRegister when enabled works as intended!
-Disabling PipelineRegister works as intended!
+RegisterFileTestcase1 -> Zero read correct!
+RegisterFileTestcase1 -> Write/Read correct!
+RegisterFileTestcase2 -> Zero read correct!
+RegisterFileTestcase2 -> Write/Read X2 correct!
+RegisterFileTestcase3 -> Write Zero correct!
+RegisterFileTestcase4 -> disabling WE correct!
