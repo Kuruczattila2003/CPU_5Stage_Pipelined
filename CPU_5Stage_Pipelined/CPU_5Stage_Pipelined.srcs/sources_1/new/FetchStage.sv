@@ -42,8 +42,6 @@ module FetchStage(
     logic [31:0] PCNextF; 
 
 
-
-
     mux2_1_32bit PCRegisterMux(
         .a(PCPlus4F),
         .b(PCPlusImmE),
