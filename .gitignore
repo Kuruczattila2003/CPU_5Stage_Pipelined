@@ -1,0 +1,15 @@
+# Vivado junk
+*.log
+*.jou
+*.str
+.Xil/
+*.pb
+*.jou
+# Synthesis/Implementation runs
+*.runs/
+*.gen/
+*.srcs/utils_1/
+# Simulation junk
+*.sim/
+*.prm
+*.iit
