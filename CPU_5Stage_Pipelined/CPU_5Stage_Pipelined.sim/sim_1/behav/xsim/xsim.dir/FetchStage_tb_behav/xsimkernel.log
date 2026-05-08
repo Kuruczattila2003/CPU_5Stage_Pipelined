@@ -1,7 +1,0 @@
-Running: xsim.dir/FetchStage_tb_behav/xsimk.exe -simmode gui -wdb FetchStage_tb_behav.wdb -simrunnum 0 -socket 50764
-Design successfully loaded
-Design Loading Memory Usage: 11200 KB (Peak: 11200 KB)
-Design Loading CPU Usage: 15 ms
-Simulation completed
-Simulation Memory Usage: 12216 KB (Peak: 12216 KB)
-Simulation CPU Usage: 93 ms

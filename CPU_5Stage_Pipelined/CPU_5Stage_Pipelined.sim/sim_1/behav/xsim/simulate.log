@@ -1,8 +1,0 @@
-Time resolution is 1 ps
-Stopped at time : 0 fs : File "C:/Users/kuruc/CPU_Design/CPU_5Stage_Pipelined/CPU_5Stage_Pipelined/CPU_5Stage_Pipelined.srcs/sim_1/new/DecodeStage_tb.sv" Line 130
-Stopped at time : 6 ns : File "C:/Users/kuruc/CPU_Design/CPU_5Stage_Pipelined/CPU_5Stage_Pipelined/CPU_5Stage_Pipelined.srcs/sim_1/new/DecodeStage_tb.sv" Line 168
-DecodeStage Testcase1 successfull!
-DecodeStage Testcase2 successfull!
-Decode Stage verification finished!
-$finish called at time : 1054 ns : File "C:/Users/kuruc/CPU_Design/CPU_5Stage_Pipelined/CPU_5Stage_Pipelined/CPU_5Stage_Pipelined.srcs/sim_1/new/DecodeStage_tb.sv" Line 134
-INFO: xsimkernel Simulation Memory Usage: 19948 KB (Peak: 19948 KB), Simulation CPU Usage: 628280 ms
