@@ -54,7 +54,7 @@ module DecodeStage(
    
    logic [31:0] InstrD;
     
-    PipelineRegister #(.WIDTH(93)) decodeRegister(
+    PipelineRegister #(.WIDTH(96)) decodeRegister(
         .clk(clk),
         .reset(reset),
         .en(~StallD),
