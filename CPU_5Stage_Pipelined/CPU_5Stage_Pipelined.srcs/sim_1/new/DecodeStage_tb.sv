@@ -71,6 +71,7 @@ module DecodeStage_tb(
         
         //Hazard Unit
         .StallD(StallD),
+        .FlushD(),
         
         //outputs
         .RD1D(RD1D),
@@ -82,7 +83,8 @@ module DecodeStage_tb(
         
         .ImmExtD(ImmExtD),
         .PCPlus4D(PCPlus4D),
-        .PCD(PCD)
+        .PCD(PCD),
+        .InstrD()
     );
     
     /*

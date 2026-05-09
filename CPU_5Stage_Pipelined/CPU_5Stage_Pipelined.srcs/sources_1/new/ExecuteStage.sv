@@ -46,6 +46,7 @@ module ExecuteStage(
         input logic [1:0] ForwardAE,
         input logic [1:0] ForwardBE,
         input logic StallE,
+        input logic FlushE,
                 
         //output
         //For Fetch Stage
@@ -67,6 +68,7 @@ module ExecuteStage(
         input logic [2:0] ALUControlD,
         input logic ALUSrcBED,
         
+        output logic [4:0] RSrc1E, RSrc2E,
         output logic RegisterFileWEE,
         output logic [1:0] ResultSrcE,
         output logic MemoryWEE
@@ -74,8 +76,6 @@ module ExecuteStage(
     
     logic [31:0] RD1E;
     logic [31:0] RD2E;
-    logic [4:0] RSrc1E;
-    logic [4:0] RSrc2E;
     logic [31:0] ImmExtE;
     logic [31:0] PCE;
     //ALU
@@ -90,7 +90,7 @@ module ExecuteStage(
     
     PipelineRegister #(.WIDTH(185)) ExecuteRegister(
         .clk(clk),
-        .reset(reset),
+        .reset(reset || FlushE),
         .en(~StallE),
         .D({RD1D, RD2D, RSrc1D, RSrc2D, RDD, ImmExtD, PCPlus4D, PCD, 
         /*CU*/ RegisterFileWED, ResultSrcD, MemoryWED, JumpD, BranchD, ALUControlD, ALUSrcBED}),

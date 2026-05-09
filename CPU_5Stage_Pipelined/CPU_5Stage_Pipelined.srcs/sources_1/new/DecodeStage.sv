@@ -38,6 +38,7 @@ module DecodeStage(
         
         //Hazard Unit
         input logic StallD,
+        input logic FlushD,
         
         //outputs
         output logic [31:0] RD1D,
@@ -49,14 +50,14 @@ module DecodeStage(
         
         output logic [31:0] ImmExtD,
         output logic [31:0] PCPlus4D,
-        output logic [31:0] PCD
+        output logic [31:0] PCD,
+        output logic [31:0] InstrD
     );
    
-   logic [31:0] InstrD;
     
     PipelineRegister #(.WIDTH(96)) decodeRegister(
         .clk(clk),
-        .reset(reset),
+        .reset(reset || FlushD),
         .en(~StallD),
         .D({PCF, PCPlus4F, InstrF}),
         .Q({PCD, PCPlus4D, InstrD})

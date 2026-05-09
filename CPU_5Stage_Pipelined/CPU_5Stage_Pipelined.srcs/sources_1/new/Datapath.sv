@@ -23,12 +23,7 @@ module Datapath(
     input logic clk,
     input logic reset,
     
-    //Fetch Stage
-    input logic StallF, //Hazard Unit
-    
-    //Decode Stage
-    input logic StallD,  //Hazard Unit
-    //CU
+    //Control Unit
     input logic RegisterFileWED,
     input logic [1:0] ResultSrcD,
     input logic MemoryWED,
@@ -37,10 +32,26 @@ module Datapath(
     input logic [2:0] ALUControlD,
     input logic ALUSrcBED,
     
+    //Hazard Unit
+    //Fetch Stage
+    input logic StallF, //Hazard Unit
+    //Decode Stage
+    input logic StallD,  //Hazard Unit
+    input logic FlushD,
     //Execute Stage
     input logic [1:0] FordwardAE, //Hazard Unit
     input logic [1:0] FordwardBE, //Hazard Unit
-    input logic StallE //Hazard Unit
+    input logic StallE, //Hazard Unit
+    input logic FlushE,
+    
+    //output
+    output logic [31:0] InstrD,
+    output logic [4:0] RSrc1D, RSrc2D,
+    output logic [4:0] RSrc1E, RSrc2E,
+    output logic [4:0] RDE, RDM, RDW,
+    output logic RegisterFileWEM, RegisterFileWEW,
+    output logic [1:0] ResultSrcE,
+    output logic PCSrcE
 );
     
     //--- Fetch Stage Outputs ---
@@ -55,6 +66,7 @@ module Datapath(
     logic [31:0] ImmExtD;
     logic [31:0] PCPlus4D;
     logic [31:0] PCD;
+    logic [31:0] InstrD;
 
     //--- Execute Stage Outputs ---
     logic        PCSrcE;
@@ -117,6 +129,7 @@ module Datapath(
         .RegisterFileWEW(RegisterFileWEW),
         //Hazard Unit
         .StallD(StallD),
+        .FlushD(FlushD),
         
         //outputs
         .RD1D(RD1D),
@@ -128,7 +141,8 @@ module Datapath(
         
         .ImmExtD(ImmExtD),
         .PCPlus4D(PCPlus4D),
-        .PCD(PCD)
+        .PCD(PCD),
+        .InstrD(InstrD)
     );
     
     //--- Execute Stage ---
@@ -155,6 +169,7 @@ module Datapath(
         .FordwardAE(FordwardAE),
         .FordwardBE(FordwardBE),
         .StallE(StallE),
+        .FlushE(FlushE),
                 
         //output
         //For Fetch Stage

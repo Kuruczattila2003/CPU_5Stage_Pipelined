@@ -28,6 +28,20 @@ module CPU_5Stage_Piepline_tb(
     logic reset;
     
     //dut
+    /*
+    module CPU(
+        input logic clk,
+        input logic reset
+    );
+    */
+    
+    //RegisterFile RAM ith register: dut.datapath.decodeStage.registerFile.RAM[i]
+    //DataMemory ith data (+4): dut.datapath.memoryStage.dataMemory.RAM[i]
+    
+    CPU dut(
+        .clk(clk),
+        .reset(reset)
+    );
     
     //dut
     

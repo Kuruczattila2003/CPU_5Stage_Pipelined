@@ -107,6 +107,7 @@ module ExecuteStage_tb(
      .ForwardAE(ForwardAE),
      .ForwardBE(ForwardBE),
      .StallE(StallE),
+     .FlushE(),
             
     //output
     //For Fetch Stage
@@ -118,6 +119,8 @@ module ExecuteStage_tb(
      .RDE(RDE),
      .PCPlus4E(PCPlus4E),
     
+     .RSrc1E(),
+     .RSrc2E(),
     
     //Control Unit pipelining
      .RegisterFileWED(RegisterFileWED),
@@ -131,6 +134,7 @@ module ExecuteStage_tb(
       .RegisterFileWEE(RegisterFileWEE),
       .ResultSrcE(ResultSrcE),
       .MemoryWEE(MemoryWEE)
+      
     );
     
     
