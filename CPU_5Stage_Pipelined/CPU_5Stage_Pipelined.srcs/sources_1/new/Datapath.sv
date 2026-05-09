@@ -28,7 +28,6 @@ module Datapath(
     
     //Decode Stage
     input logic StallD,  //Hazard Unit
-    input logic RegisterFileWE, //Control Unit
     //CU
     input logic RegisterFileWED,
     input logic [1:0] ResultSrcD,
@@ -90,8 +89,7 @@ module Datapath(
         .ResultW(ResultW),
         
         //Control Unit
-        .RegisterFileWE(RegisterFileWE),
-        
+        .RegisterFileWEW(RegisterFileWEW),
         //Hazard Unit
         .StallD(StallD),
         
