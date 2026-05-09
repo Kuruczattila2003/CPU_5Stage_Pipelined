@@ -44,6 +44,7 @@ module RegisterFile_tb(
         RegisterFileTestcase2();
         RegisterFileTestcase3();
         RegisterFileTestcase4();
+        RegisterFileTestcase5();
         
         #1000;
         $display("Verification of Registerfile finished");
@@ -219,6 +220,27 @@ module RegisterFile_tb(
             $display("RegisterFileTestcase4 -> disabling WE correct!");
         end
    
+    endtask
+    
+    task RegisterFileTestcase5();
+        // Test Internal Forwarding (Write-Before-Read Bypass)
+        
+        @(posedge clk);
+        #1;
+        WE  = 1'b1;
+        A3  = 5'h5;             // We are writing to x5
+        WD3 = 32'hDEADBEEF;     // Data to write
+        A1  = 5'h5;             // We are reading from x5 AT THE EXACT SAME TIME
+        
+        #1; 
+        
+        expected_RD1 = 32'hDEADBEEF;
+        
+        if(expected_RD1 != RD1) begin
+            $display("RegisterFileTestcase5 failed! Internal Forwarding broken. Got: %h", RD1);
+        end else begin
+            $display("RegisterFileTestcase5 -> Internal Forwarding (Bypass) correct!");
+        end
     endtask
     
 endmodule

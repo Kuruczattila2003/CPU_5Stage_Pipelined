@@ -32,10 +32,15 @@ module RegisterFile(
     logic [31:0] RAM [31:0];
     
     //read
-    always_comb begin
-        RD1 = (A1 != 32'b0) ? RAM[A1] : 32'b0;
-        RD2 = (A2 != 32'b0) ? RAM[A2] : 32'b0;
-    end
+    // Read Port 1
+    assign RD1 = (A1 == 5'b0) ? 32'b0 :
+                 ((A1 == A3) && WE) ? WD3 :
+                 RAM[A1];
+
+    // Read Port 2
+    assign RD2 = (A2 == 5'b0) ? 32'b0 :
+                 ((A2 == A3) && WE) ? WD3 
+                 : RAM[A2];
     
     //write
     always_ff @(posedge clk) begin
