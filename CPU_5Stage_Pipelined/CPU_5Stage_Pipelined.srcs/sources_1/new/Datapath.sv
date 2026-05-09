@@ -38,17 +38,49 @@ module Datapath(
     input logic ALUSrcBED,
     
     //Execute Stage
-    input logic [2:0] ALUControl, //Control Unit
-    input logic ALUSrcBE, //Control Unit
     input logic [1:0] FordwardAE, //Hazard Unit
     input logic [1:0] FordwardBE, //Hazard Unit
     input logic StallE //Hazard Unit
 );
     
-    //--- Fetch Stage ---
+    //--- Fetch Stage Outputs ---
     logic [31:0] InstrF;
     logic [31:0] PCPlus4F;
     logic [31:0] PCF;
+    
+    //--- Decode Stage Outputs ---
+    logic [31:0] RD1D;
+    logic [31:0] RD2D;
+    logic [4:0]  RSrc1D, RSrc2D, RDD;
+    logic [31:0] ImmExtD;
+    logic [31:0] PCPlus4D;
+    logic [31:0] PCD;
+
+    //--- Execute Stage Outputs ---
+    logic        PCSrcE;
+    logic [31:0] PCPlusImmE;
+    logic [31:0] ALUResE;
+    logic [31:0] WriteDataE;
+    logic [4:0]  RDE;         // FIXED: Was incorrectly declared as [31:0]
+    logic [31:0] PCPlus4E;
+    //CU
+    logic        RegisterFileWEE;
+    logic [1:0]  ResultSrcE;
+    logic        MemoryWEE;
+
+    //--- Memory Stage Outputs ---
+    logic [31:0] ALUResM;
+    logic [31:0] MemoryDataM;
+    logic [4:0]  RDM;
+    logic [31:0] PCPlus4M;
+    //CU
+    logic        RegisterFileWEM;
+    logic [1:0]  ResultSrcM;
+
+    //--- Writeback Stage Outputs ---
+    logic [31:0] ResultW;
+    logic        RegisterFileWEW;
+    logic [4:0]  RDW;
     
     FetchStage fetchStage(
         .clk(clk),
@@ -68,13 +100,6 @@ module Datapath(
 
 
     //--- Decode Stage ---
-    logic [31:0] RD1D;
-    logic [31:0] RD2D;
-    logic [4:0] RSrc1D, RSrc2D, RDD;
-    logic [31:0] ImmExtD;
-    logic [31:0] PCPlus4D;
-    logic [31:0] PCD;
-
     DecodeStage decodeStage(
         .clk(clk),
         .reset(reset),
@@ -107,17 +132,6 @@ module Datapath(
     );
     
     //--- Execute Stage ---
-    logic PCSrcE;
-    logic [31:0] PCPlusImmE;
-    logic [31:0] ALUResE;
-    logic [31:0] WriteDataE;
-    logic [31:0] RDE;
-    logic [31:0] PCPlus4E;
-    //CU
-    logic RegisterFileWEE;
-    logic [1:0] ResultSrcE;
-    logic MemoryWEE;
-    
     ExecuteStage executeStage(
         //From Decode Stage
         .clk(clk),
@@ -135,7 +149,7 @@ module Datapath(
         .ALUResM(ALUResM),
         
         //From Writeback Stage
-        .ResultSrcW(ResultSrcW),
+        .ResultSrcW(ResultW),
         
         //From Hazard Unit
         .FordwardAE(FordwardAE),
@@ -162,14 +176,57 @@ module Datapath(
         
         .RegisterFileWEE(RegisterFileWEE),
         .ResultSrcE(ResultSrcE),
-        .MemoryWEE(MemoryWEE)
+        .MemoryWEE(MemoryWEE),
+        .PCSrcE(PCSrcE)
     );
     
     //--- Memory Stage ---
-    logic [31:0] ALUResM;
+    MemoryStage memoryStage(
+        .clk(clk),
+        .reset(reset),
+        
+        //From Execute Stage
+        .ALUResE(ALUResE),
+        .WriteDataE(WriteDataE),
+        .PCPlus4E(PCPlus4E),
+        .RDE(RDE),
+        
+        //CU Inputs 
+        .RegisterFileWEE(RegisterFileWEE),
+        .ResultSrcE(ResultSrcE),
+        .MemoryWEE(MemoryWEE),
+        
+        //Outputs
+        .ALUResM(ALUResM),
+        .MemoryDataM(MemoryDataM),
+        .RDM(RDM),
+        .PCPlus4M(PCPlus4M),
+        
+        //CU Outputs
+        .RegisterFileWEM(RegisterFileWEM),
+        .ResultSrcM(ResultSrcM)
+    );
+    
     
     //--- Writeback Stage ---
-    logic [4:0] RDW;
-    logic [31:0] ResultSrcW;
+    WritebackStage writebackStage(
+        .clk(clk),
+        .reset(reset),
+        
+        //From Memory Stage
+        .PCPlus4M(PCPlus4M),
+        .RDM(RDM),
+        .MemoryDataM(MemoryDataM),
+        .ALUResultM(ALUResM), // Mapped ALUResM to ALUResultM port
+        
+        //CU Inputs
+        .RegisterFileWEM(RegisterFileWEM),
+        .ResultSrcM(ResultSrcM),
+        
+        //Outputs routed back to Decode & Forwarding
+        .ResultW(ResultW),
+        .RegisterFileWEW(RegisterFileWEW),
+        .RDW(RDW)
+    );
 
 endmodule
