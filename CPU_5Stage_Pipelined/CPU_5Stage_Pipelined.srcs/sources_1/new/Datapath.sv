@@ -123,7 +123,7 @@ module Datapath(
         
         //From Writeback stage -> because of Register File
         .RDW(RDW),
-        .ResultW(ResultW),
+        .ResultSrcW(ResultW),
         
         //Control Unit
         .RegisterFileWEW(RegisterFileWEW),
@@ -166,8 +166,8 @@ module Datapath(
         .ResultSrcW(ResultW),
         
         //From Hazard Unit
-        .FordwardAE(FordwardAE),
-        .FordwardBE(FordwardBE),
+        .ForwardAE(FordwardAE),
+        .ForwardBE(FordwardBE),
         .StallE(StallE),
         .FlushE(FlushE),
                 
@@ -192,7 +192,9 @@ module Datapath(
         .RegisterFileWEE(RegisterFileWEE),
         .ResultSrcE(ResultSrcE),
         .MemoryWEE(MemoryWEE),
-        .PCSrcE(PCSrcE)
+        .PCSrcE(PCSrcE),
+        .RSrc1E(RSrc1E),
+        .RSrc2E(RSrc2E)
     );
     
     //--- Memory Stage ---
